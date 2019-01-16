@@ -1,10 +1,5 @@
 # RINGSDETtest
 
-## Show your work
-
-1.  Create a Public repository
-2.  Commit each step of your process so we can follow your thought process.
-
 ## Challenge
 Create pilot Java test framework for testing NASA's open API (https://api.nasa.gov/index.html#getting-started). The purpose of the test is to check images which were made by Curiosity (https://api.nasa.gov/api.html#Images).
 Test scenario:
