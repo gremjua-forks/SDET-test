@@ -8,6 +8,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.ResourceBundle;
+
 
 @CucumberOptions(
         features = "src/test/resources/automationpilot",
@@ -25,6 +27,7 @@ public class RunCucumberTest {
         @BeforeClass(alwaysRun = true)
         public void setUpClass() throws Exception {
                 testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
+                //ResourceBundle rb = ResourceBundle.getBundle("config");
         }
 
         @Test(groups = {}, description = "Runs Cucumber Feature", dataProvider = "features")
