@@ -12,7 +12,7 @@ import gherkin.deps.com.google.gson.JsonElement;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class CuriosityAPI{
+public class CuriosityAPI {
 
     public Photo photos;
     public PhotoFeed photoFeed;
@@ -25,10 +25,6 @@ public class CuriosityAPI{
     private static JsonFactory JSON_FACTORY = new JacksonFactory();
 
     public CuriosityAPI() {
-        // TODO: Improve with port and protocol
-        super();
-
-
         requestFactory =
                 HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
                     @Override
@@ -38,7 +34,6 @@ public class CuriosityAPI{
                 });
     }
 
-    // is it static?????
     public static class PhotoFeed {
 
         @Key
@@ -46,7 +41,6 @@ public class CuriosityAPI{
     }
 
     public static class Photo {
-
         @Key
         public int id;
 
@@ -54,10 +48,40 @@ public class CuriosityAPI{
         public int sol;
 
         @Key
+        public CuriosityCamera camera;
+
+        @Key("img_src")
+        public String imgSrc;
+
+        @Key
         public Rover rover;
 
         @Key("earth_date")
         public String earthDate;
+
+        // GETTERS & SETTERS
+        public CuriosityCamera getCamera() {
+            return camera;
+        }
+    }
+
+    public static class CuriosityCamera {
+        @Key
+        public int id;
+
+        @Key
+        public String name;
+
+        @Key("rover_id")
+        public int roverId;
+
+        @Key("full_name")
+        public String fullName;
+
+        // GETTERS & SETTERS
+        public String getName() {
+            return name;
+        }
     }
 
     public static class Rover {
@@ -84,9 +108,16 @@ public class CuriosityAPI{
     }
 
     public static class ApiUrl extends GenericUrl {
+        @Key
+        String sol;  // package private
 
-        // strings can be disabled with null
+        @Key("earth_date")
+        String earthDate;
 
+        @Key("api_key")
+        String apiKey;
+
+        // GETTERS & SETTERS
         public ApiUrl(String encodedUrl) {
             super(encodedUrl);
         }
@@ -114,48 +145,5 @@ public class CuriosityAPI{
         public void setApiKey(String apiKey) {
             this.apiKey = apiKey;
         }
-
-        @Key
-        String sol;  // package private
-
-        @Key("earth_date")
-        String earthDate;
-
-        @Key("api_key")
-        String apiKey;
     }
-
-    //public static void main(String[] args) {
-    //    try {
-    //        try {
-    //            run();
-    //            return;
-    //        } catch (HttpResponseException e) {
-    //            System.err.println(e.getMessage());
-    //        }
-    //    } catch (Throwable t) {
-    //        t.printStackTrace();
-    //    }
-    //    System.exit(1);
-    //}
-
-
-    //private static void run() throws Exception {
-    //    ResourceBundle rb = ResourceBundle.getBundle("config");
-    //    HttpRequestFactory requestFactory =
-    //            HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
-    //                @Override
-    //                public void initialize(HttpRequest request) {
-    //                    request.setParser(new JsonObjectParser(JSON_FACTORY));
-    //                }
-    //            });
-    //    ApiUrl apiUrl = new ApiUrl(rb.getString("apiUrl") + "rovers/curiosity/photos");
-    //    apiUrl.apiKey = rb.getString("apiKey");
-    //    apiUrl.sol = "1000";
-    //    String sentRequest = apiUrl.build();
-    //    HttpRequest request = requestFactory.buildGetRequest(apiUrl);
-    //    PhotoFeed photos = request.execute().parseAs(PhotoFeed.class);
-    //    System.out.println("DONE");
-    //}
-
 }
