@@ -139,7 +139,8 @@ public class CuriosityAPIStepDefinitions {
         // Verify that no camera took more than @maxNumberOfPhotosPerCamera photos
         for (String cameraName : photosGroupedByCamera.keySet()){
             Assert.assertTrue(photosGroupedByCamera.get(cameraName).size() < maxNumberOfPhotosPerCamera,
-                    "Error. Camera " + cameraName + " took more than " + maxNumberOfPhotosPerCamera + " photos.");
+                    "Error. Camera " + cameraName + " took  "
+                            + photosGroupedByCamera.get(cameraName).size() + " photos.");
         }
     }
 }
