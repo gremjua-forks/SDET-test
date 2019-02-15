@@ -126,8 +126,8 @@ public class CuriosityAPIStepDefinitions {
         allPhotosBySolDay = curiosityAPI.photoFeed.photos;
     }
 
-    @Then("^no camera made more than \"([^\"]*)\" photos$")
-    public void no_camera_made_more_than_photos(int maxNumberOfPhotosPerCamera) throws Exception {
+    @Then("^no camera made more than \"([^\"]*)\" photos than any other$")
+    public void no_camera_made_more_than_photos(int maxNumberOfPhotosDifference) throws Exception {
         Assert.assertNotNull(allPhotosBySolDay, "Error. There No photo information available to run the test step");
 
         // Group photos by the camera used to take it
@@ -136,11 +136,17 @@ public class CuriosityAPIStepDefinitions {
                         .map(CuriosityAPI.Photo::getCamera)
                         .collect(Collectors.groupingBy(CuriosityAPI.CuriosityCamera::getName));
 
-        // Verify that no camera took more than @maxNumberOfPhotosPerCamera photos
-        for (String cameraName : photosGroupedByCamera.keySet()){
-            Assert.assertTrue(photosGroupedByCamera.get(cameraName).size() < maxNumberOfPhotosPerCamera,
-                    "Error. Camera " + cameraName + " took  "
-                            + photosGroupedByCamera.get(cameraName).size() + " photos.");
+        for (String key : photosGroupedByCamera.keySet()){
+            System.out.println("Camera: " + key + ". Photos: " + photosGroupedByCamera.get(key).size());
         }
+
+
+        // Verify that no camera took more than @maxNumberOfPhotosPerCamera photos
+        int maxNumberOfPhotosPerCamera = photosGroupedByCamera.values().stream().mapToInt(List::size).max().getAsInt();
+        int minNumberOfPhotosPerCamera = photosGroupedByCamera.values().stream().mapToInt(List::size).min().getAsInt();
+
+        int photosTakenDifference = maxNumberOfPhotosPerCamera - minNumberOfPhotosPerCamera;
+        Assert.assertTrue(photosTakenDifference < maxNumberOfPhotosDifference,
+                "Error. There's a difference of " + photosTakenDifference + " photos between two cameras");
     }
 }

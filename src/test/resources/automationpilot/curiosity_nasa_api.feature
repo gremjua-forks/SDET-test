@@ -14,4 +14,4 @@ Feature: Curiosity NASA API
   @TEST-2
   Scenario: A camera did not take more than 10 photos compared to the others
     Given I get the all photos made on sol "1000"
-    Then no camera made more than "10" photos
+    Then no camera made more than "10" photos than any other
