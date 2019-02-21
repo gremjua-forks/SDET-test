@@ -7,10 +7,10 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.Key;
-import gherkin.deps.com.google.gson.JsonElement;
+import gherkin.deps.com.google.gson.Gson;
+import gherkin.deps.com.google.gson.GsonBuilder;
 
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class CuriosityAPI {
 
@@ -59,6 +59,24 @@ public class CuriosityAPI {
         @Key("earth_date")
         public String earthDate;
 
+        public boolean equals(Photo o) {
+            if (this == o) {
+                return true;
+            } else if (o == null) {
+                return false;
+            } else {
+                return (this.id == o.id) && (this.sol == o.sol) && (this.imgSrc.equals(o.imgSrc)) &&
+                        (this.camera.equals(o.camera)) && (this.rover.equals(o.rover));
+            }
+        }
+
+        public String prettyPrint() {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String prettyJson = gson.toJson(this);
+
+            return prettyJson;
+        }
+
         // GETTERS & SETTERS
         public CuriosityCamera getCamera() {
             return camera;
@@ -77,6 +95,17 @@ public class CuriosityAPI {
 
         @Key("full_name")
         public String fullName;
+
+        public boolean equals(CuriosityCamera o) {
+            if (this == o) {
+                return true;
+            } else if (o == null) {
+                return false;
+            } else {
+                return ((this.id == o.id) && (this.name.equals(o.name)) &&
+                        (this.roverId == o.roverId) && (this.fullName.equals(o.fullName)));
+            }
+        }
 
         // GETTERS & SETTERS
         public String getName() {
@@ -105,6 +134,18 @@ public class CuriosityAPI {
 
         @Key
         public List<GenericJson> cameras;
+
+        public boolean equals(Rover o) {
+            if (this == o) {
+                return true;
+            } else if (o == null) {
+                return false;
+            } else {
+                return ((this.id == o.id) && (this.landingDate.equals(o.landingDate)) &&
+                        (this.launchDate.equals(o.launchDate)) && (this.maxSol == o.maxSol) &&
+                        (this.maxDate.equals(o.maxDate)) && (this.cameras.equals(o.cameras)));
+            }
+        }
     }
 
     public static class ApiUrl extends GenericUrl {

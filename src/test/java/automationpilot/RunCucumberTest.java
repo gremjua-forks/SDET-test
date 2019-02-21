@@ -8,8 +8,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.ResourceBundle;
-
 
 @CucumberOptions(
         features = "src/test/resources/automationpilot",
@@ -22,25 +20,25 @@ import java.util.ResourceBundle;
                 "rerun:target/cucumber-reports/rerun.txt"
         })
 public class RunCucumberTest {
-        private TestNGCucumberRunner testNGCucumberRunner;
+    private TestNGCucumberRunner testNGCucumberRunner;
 
-        @BeforeClass(alwaysRun = true)
-        public void setUpClass() throws Exception {
-                testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
-        }
+    @BeforeClass(alwaysRun = true)
+    public void setUpClass() throws Exception {
+        testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
+    }
 
-        @Test(groups = {}, description = "Runs Cucumber Feature", dataProvider = "features")
-        public void feature(CucumberFeatureWrapper cucumberFeature) {
-                testNGCucumberRunner.runCucumber(cucumberFeature.getCucumberFeature());
-        }
+    @Test(groups = {}, description = "Runs Cucumber Feature", dataProvider = "features")
+    public void feature(CucumberFeatureWrapper cucumberFeature) {
+        testNGCucumberRunner.runCucumber(cucumberFeature.getCucumberFeature());
+    }
 
-        @DataProvider
-        public Object[][] features() {
-                return testNGCucumberRunner.provideFeatures();
-        }
+    @DataProvider
+    public Object[][] features() {
+        return testNGCucumberRunner.provideFeatures();
+    }
 
-        @AfterClass(alwaysRun = true)
-        public void tearDownClass() throws Exception {
-                testNGCucumberRunner.finish();
-        }
+    @AfterClass(alwaysRun = true)
+    public void tearDownClass() throws Exception {
+        testNGCucumberRunner.finish();
+    }
 }
