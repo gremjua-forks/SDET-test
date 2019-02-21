@@ -2,16 +2,12 @@ package automationpilot.steps;
 
 import automationpilot.sut_model.CuriosityAPI;
 import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestFactory;
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.json.JsonObjectParser;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
+import logger.utility.CucumberLog;
 import org.testng.Assert;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -47,7 +43,7 @@ public class CuriosityAPIStepDefinitions {
         int totalNumberOfPhotos = curiosityAPI.photoFeed.photos.size();
 
         Assert.assertTrue(totalNumberOfPhotos >= numberOfPhotos);
-        System.out.println("Retrieved " + totalNumberOfPhotos + " Photos");
+        CucumberLog.info("Retrieved " + totalNumberOfPhotos + " Photos");
         // TODO: Duplicated code
 
         // Save the first 10 photos
@@ -79,7 +75,7 @@ public class CuriosityAPIStepDefinitions {
 
     @When("^I get the first \"([^\"]*)\" pictures made on that earth date$")
     public void i_get_the_first_pictures_made_on_earth_date(int numberOfPhotos) throws Exception {
-        Assert.assertNotNull(earthDateCalculated, "Error. A date for retrieving the pictures should have been defined");
+        Assert.assertNotNull(earthDateCalculated, "Error. A date for retrieving the pictures should have been defined.");
         String earthDate = new SimpleDateFormat("yyyy-MM-dd").format(earthDateCalculated);
 
         curiosityAPI.apiUrl.setSol(null);
@@ -89,7 +85,7 @@ public class CuriosityAPIStepDefinitions {
         curiosityAPI.photoFeed = request.execute().parseAs(CuriosityAPI.PhotoFeed.class);
         int totalNumberOfPhotos = curiosityAPI.photoFeed.photos.size();
         Assert.assertTrue(totalNumberOfPhotos >= numberOfPhotos);
-        System.out.println("Retrieved " + totalNumberOfPhotos + " Photos");
+        CucumberLog.info("Retrieved " + totalNumberOfPhotos + " Photos");
 
         photosByEarthDate = curiosityAPI.photoFeed.photos.subList(0, numberOfPhotos);
     }
@@ -100,13 +96,13 @@ public class CuriosityAPIStepDefinitions {
         // It's possible that if I retrieve the earth date for a given sol, that earth day might have started on the
         // previous sol
 
-        Assert.assertEquals(photosBySolDay.size(), photosByEarthDate.size(), "Error. Sizes do not match");
+        Assert.assertEquals(photosBySolDay.size(), photosByEarthDate.size(), "Error. Sizes do not match.");
 
         // Verify that the Photo's ID match
         for (int i = 0; i < photosBySolDay.size(); i++) {
             Assert.assertEquals(photosBySolDay.get(i).id, photosByEarthDate.get(i).id);
         }
-        System.out.println("Photos are the same");
+        CucumberLog.info("Photos are the same");
     }
 
     @Given("^I get the all photos made on sol \"([^\"]*)\"$")
@@ -121,14 +117,14 @@ public class CuriosityAPIStepDefinitions {
         curiosityAPI.photoFeed = request.execute().parseAs(CuriosityAPI.PhotoFeed.class);
         int totalNumberOfPhotos = curiosityAPI.photoFeed.photos.size();
 
-        System.out.println("Retrieved " + totalNumberOfPhotos + " Photos");
+        CucumberLog.info("Retrieved " + totalNumberOfPhotos + " Photos");
         // TODO: duplicated code
         allPhotosBySolDay = curiosityAPI.photoFeed.photos;
     }
 
     @Then("^no camera made more than \"([^\"]*)\" photos than any other$")
     public void no_camera_made_more_than_photos(int maxNumberOfPhotosDifference) throws Exception {
-        Assert.assertNotNull(allPhotosBySolDay, "Error. There No photo information available to run the test step");
+        Assert.assertNotNull(allPhotosBySolDay, "Error. There No photo information available to run the test step.");
 
         // Group photos by the camera used to take it
         HashMap<String, List<CuriosityAPI.CuriosityCamera>> photosGroupedByCamera =
@@ -137,7 +133,7 @@ public class CuriosityAPIStepDefinitions {
                         .collect(Collectors.groupingBy(CuriosityAPI.CuriosityCamera::getName));
 
         for (String key : photosGroupedByCamera.keySet()){
-            System.out.println("Camera: " + key + ". Photos: " + photosGroupedByCamera.get(key).size());
+            CucumberLog.info("Camera: " + key + ". Photos: " + photosGroupedByCamera.get(key).size());
         }
 
 
@@ -147,6 +143,6 @@ public class CuriosityAPIStepDefinitions {
 
         int photosTakenDifference = maxNumberOfPhotosPerCamera - minNumberOfPhotosPerCamera;
         Assert.assertTrue(photosTakenDifference < maxNumberOfPhotosDifference,
-                "Error. There's a difference of " + photosTakenDifference + " photos between two cameras");
+                "Error. There's a difference of " + photosTakenDifference + " photos between two cameras.");
     }
 }
