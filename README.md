@@ -10,7 +10,12 @@ Test scenario:
 As a plus:
 Using NASA’s API determine how many pictures were made by each camera (by Curiosity on 1000 sol.). If any camera made 10 times more images than any other - test fails.
 
-Please use standard technologies, tools and frameworks which you are usually use in test frameworks creation. Please do not upload solution to your Github repository.
+Please use standard technologies, tools and frameworks which you are usually use in test frameworks creation. 
+
+## Instructions
+You will need to fork the repository and build the solution in your **private** Github.  Once you are finished, please send a Zip file with the solution.
+
+Please **do not** upload solution to your **public** Github repository, only send a Zip with the solution.
 
 Implementation deadline is 1 week. Please let us know the time that you spent to achieve the task.
 
