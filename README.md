@@ -1,31 +1,21 @@
-# SDETtest - Java test framework 
+# SDETtest
 
-## Description
-This is the test solution for the #SDETtest Challenge. 
-Here I implemented 2 API tests accordingly to the challenge specification. 
+## Challenge
+Create pilot Java test framework for testing NASA's open API (https://api.nasa.gov/index.html#getting-started). The purpose of the test is to check images which were made by Curiosity (https://api.nasa.gov/api.html#Images).
+Test scenario:
+1. Get first 10 Mars photos made by "Curiosity" on 1000 sol.
+2. Get the same 10 Mars photos made by "Curiosity" on earth date that is equals 1000 Mars sol.
+3. Compare downloaded images and metadata from API. Test fails in case of any difference.
 
-####Test Scenarios: 
-1. tenFirstPhotosFromSolAndEarthCuriosityAreTheSameTest
-2. noCameraTook10TimesMorePhotosThanOtherCuriosityTest
+As a plus:
+Using NASA’s API determine how many pictures were made by each camera (by Curiosity on 1000 sol.). If any camera made 10 times more images than any other - test fails.
 
+Please use standard technologies, tools and frameworks which you are usually use in test frameworks creation. 
 
-## Requirement:
-- Java 1.8 (1.8.0_102)
+## Instructions
+You will need to fork the repository and build the solution in your **private** Github.  Once you are finished, please send a Zip file with the solution.
 
-- Gradle
+Please **do not** upload solution to your **public** Github repository, only send a Zip with the solution.
 
-##Main Usages
-- Rest Assured - for writing powerful, maintainable tests for RESTful APIs
-- TestNG - testing framework 
-- Slf4j - Simple Logging Facade for Java 
+Implementation deadline is 1 week. Please let us know the time that you spent to achieve the task.
 
-##How to Execute the tests
-1. Download file or clone repository
-2. Open command line from folder
-3. Run ./gradlew integration
-
-
-##Report
-Once you've run the tests, in the cmd line execution you'll see the link to the report generated (if it failed) if not the report can be found in SDET-test/build/reports/tests/integration/index.html
-
-###Sample of Report 
