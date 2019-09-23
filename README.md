@@ -1,7 +1,7 @@
 # SDETtest
 
 ## Challenge
-Create pilot Java test framework for testing NASA's open API (https://api.nasa.gov/index.html#getting-started). The purpose of the test is to check images which were made by Curiosity (https://images.nasa.gov/).
+Create pilot Java test framework for testing NASA's open API (https://api.nasa.gov/index.html#getting-started). The purpose of the test is to check images which were made by Curiosity (https://www.nasa.gov/mission_pages/msl/images/index.html).
 Test scenario:
 1. Get first 10 Mars photos made by "Curiosity" on 1000 sol.
 2. Get the same 10 Mars photos made by "Curiosity" on earth date that is equals 1000 Mars sol.
