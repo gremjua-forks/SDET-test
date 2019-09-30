@@ -1,5 +1,9 @@
 # SDETtest
 
+## How to Run
+The tests are run using TestNG.
+Make sure your API key is set as an environment variable `API_KEY`.
+
 ## Challenge
 Create pilot Java test framework for testing NASA's open API (https://api.nasa.gov/index.html#getting-started). The purpose of the test is to check images which were made by Curiosity (https://www.nasa.gov/mission_pages/msl/images/index.html).
 Test scenario:
