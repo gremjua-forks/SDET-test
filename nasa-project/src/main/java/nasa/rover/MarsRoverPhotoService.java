@@ -42,7 +42,7 @@ public class MarsRoverPhotoService {
         this.earthDate = earthDate;
     }
 
-    MarsRoverPhotoResponse getPhotosBySol() {
+    public MarsRoverPhotoResponse getPhotosBySol() {
         return given().baseUri(BASE_URI)
                 .queryParam("sol", sol)
                 .queryParam("api_key", API_KEY)
@@ -56,7 +56,7 @@ public class MarsRoverPhotoService {
                 .extract().as(MarsRoverPhotoResponse.class);
     }
 
-    MarsRoverPhotoResponse getPhotosByEarthDate() {
+    public MarsRoverPhotoResponse getPhotosByEarthDate() {
         return given().baseUri(BASE_URI)
                 .queryParam("earth_date", earthDate)
                 .queryParam("api_key", API_KEY)
