@@ -1,6 +1,10 @@
 package nasa.rover;
 
 import nasa.pojos.MarsRoverPhotoResponse;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.restassured.RestAssured.*;
 
 public class MarsRoverPhotoService {
@@ -8,7 +12,10 @@ public class MarsRoverPhotoService {
     private String rover = "curiosity";
     private int sol = 1000;
     private String earthDate = "2015-05-30";
-    private String API_KEY = "c4EkBzgFB3KLDpYdAg7PB57hGQL2E4dWpAcgRN3Q";    //TODO: fetch from somewhere secure
+    private Cameras camera = Cameras.ALL;
+    private String API_KEY;
+
+    public enum Cameras {FHAZ, RHAZ, MAST, CHEMCAM, MAHLI, MARDI, NAVCAM, PANCAM, MINITES, ALL}
 
     public MarsRoverPhotoService(String API_KEY) {
         this.API_KEY = API_KEY;
@@ -42,24 +49,33 @@ public class MarsRoverPhotoService {
         this.earthDate = earthDate;
     }
 
+    public Cameras getCamera() {
+        return camera;
+    }
+
+    public void setCamera(Cameras camera) {
+        this.camera = camera;
+    }
+
     public MarsRoverPhotoResponse getPhotosBySol() {
-        return given().baseUri(BASE_URI)
-                .queryParam("sol", sol)
-                .queryParam("api_key", API_KEY)
-                .log().method().and().log().uri()
-                .when()
-                .get(String.format("/%s/photos",rover))
-                .then()
-                .log()
-                .status()
-                .and()
-                .extract().as(MarsRoverPhotoResponse.class);
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("sol", sol);
+        return doGetPhotos(queryParams);
     }
 
     public MarsRoverPhotoResponse getPhotosByEarthDate() {
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("earth_date", earthDate);
+        return doGetPhotos(queryParams);
+    }
+
+    public MarsRoverPhotoResponse doGetPhotos(Map<String,Object> queryParams){
+        queryParams.put("api_key", API_KEY);
+        if(camera!=Cameras.ALL){
+            queryParams.put("camera", camera.name().toLowerCase());
+        }
         return given().baseUri(BASE_URI)
-                .queryParam("earth_date", earthDate)
-                .queryParam("api_key", API_KEY)
+                .queryParams(queryParams)
                 .log().method().and().log().uri()
                 .when()
                 .get(String.format("/%s/photos",rover))

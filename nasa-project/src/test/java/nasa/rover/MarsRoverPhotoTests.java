@@ -47,6 +47,11 @@ public class MarsRoverPhotoTests {
 
     }
 
+    @Test
+    public void verifyNoCameraTookMoreThan10TimesMorePhotosThanOthers(){
+
+    }
+
     private BufferedImage getImageFromUrl(String imageUrl) {
         BufferedImage image = null;
         try {
