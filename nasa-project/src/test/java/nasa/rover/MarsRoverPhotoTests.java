@@ -5,13 +5,14 @@ import static org.unitils.reflectionassert.ReflectionAssert.*;
 
 import nasa.pojos.MarsRoverPhotoResponse;
 import nasa.pojos.Photo;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -49,7 +50,26 @@ public class MarsRoverPhotoTests {
 
     @Test
     public void verifyNoCameraTookMoreThan10TimesMorePhotosThanOthers(){
+        MarsRoverPhotoService marsRoverPhotoService = new MarsRoverPhotoService(System.getenv("API_KEY"));
+        marsRoverPhotoService.setRover("curiosity");
+        marsRoverPhotoService.setSol(1000);
 
+        Map<String, Integer> cameraNumPhotos = new HashMap<>();
+
+        Arrays.stream(MarsRoverPhotoService.Cameras.values()).forEach(camera ->{
+            if(camera!= MarsRoverPhotoService.Cameras.ALL) {
+                marsRoverPhotoService.setCamera(camera);
+
+                MarsRoverPhotoResponse response = marsRoverPhotoService.getPhotosBySol();
+                cameraNumPhotos.put(camera.name(), response.getPhotos().size());
+            }
+        });
+
+        int min = Collections.min(cameraNumPhotos.values());
+        int max = Collections.max(cameraNumPhotos.values());
+
+        Assert.assertNotEquals(min, 0, "A camera took 0 pictures!");
+        Assert.assertTrue(max/min < 10, "A camera took more than 10 times more images than other camera.");
     }
 
     private BufferedImage getImageFromUrl(String imageUrl) {

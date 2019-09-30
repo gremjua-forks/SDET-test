@@ -15,7 +15,7 @@ public class MarsRoverPhotoService {
     private Cameras camera = Cameras.ALL;
     private String API_KEY;
 
-    public enum Cameras {FHAZ, RHAZ, MAST, CHEMCAM, MAHLI, MARDI, NAVCAM, PANCAM, MINITES, ALL}
+    public enum Cameras {FHAZ, RHAZ, MAST, CHEMCAM, MAHLI, MARDI, NAVCAM, ALL}
 
     public MarsRoverPhotoService(String API_KEY) {
         this.API_KEY = API_KEY;
