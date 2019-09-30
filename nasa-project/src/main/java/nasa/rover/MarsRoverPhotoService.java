@@ -10,15 +10,48 @@ public class MarsRoverPhotoService {
     private String earthDate = "2015-05-30";
     private String API_KEY = "c4EkBzgFB3KLDpYdAg7PB57hGQL2E4dWpAcgRN3Q";    //TODO: fetch from somewhere secure
 
+    public MarsRoverPhotoService(String API_KEY) {
+        this.API_KEY = API_KEY;
+    }
+
+    public static String getBaseUri() {
+        return BASE_URI;
+    }
+
+    public String getRover() {
+        return rover;
+    }
+
+    public void setRover(String rover) {
+        this.rover = rover;
+    }
+
+    public int getSol() {
+        return sol;
+    }
+
+    public void setSol(int sol) {
+        this.sol = sol;
+    }
+
+    public String getEarthDate() {
+        return earthDate;
+    }
+
+    public void setEarthDate(String earthDate) {
+        this.earthDate = earthDate;
+    }
+
     MarsRoverPhotoResponse getPhotosBySol() {
         return given().baseUri(BASE_URI)
                 .queryParam("sol", sol)
                 .queryParam("api_key", API_KEY)
+                .log().method().and().log().uri()
                 .when()
                 .get(String.format("/%s/photos",rover))
                 .then()
                 .log()
-                .everything()
+                .status()
                 .and()
                 .extract().as(MarsRoverPhotoResponse.class);
     }
@@ -27,11 +60,12 @@ public class MarsRoverPhotoService {
         return given().baseUri(BASE_URI)
                 .queryParam("earth_date", earthDate)
                 .queryParam("api_key", API_KEY)
+                .log().method().and().log().uri()
                 .when()
                 .get(String.format("/%s/photos",rover))
                 .then()
                 .log()
-                .everything()
+                .status()
                 .and()
                 .extract().as(MarsRoverPhotoResponse.class);
     }
